@@ -54,4 +54,48 @@ router.post('/createUser', [
     }
 })
 
+//User Login using POST method
+router.post('/login', [
+    body('email', 'Enter a valid Email').isEmail(),
+    body('password', 'Password cannot be blank').exists()
+] , async (req,res)=>{
+
+    //check for bad request and send the error
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    //destructure the body parameters
+    const {email, password} = req.body;
+
+    try {
+        let user = await User.findOne({email});
+        if(!user) {
+            return res.status(500).json({error: "Invalid Login Credentials!"})
+        }
+
+        //compare the given password
+        const validPass = await bcrypt.compare(password, user.password);
+        if(!validPass) {
+            return res.status(500).json({error: "Invalid Login Credentials!"})
+        }
+
+        //jwt
+        const data = {
+            user:{
+                id:user.id
+            }
+        }
+        const authToken = jwt.sign(data, JWT_SECRET);
+
+        res.json({authToken});
+
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send("Some Error Occured")
+    }
+})
+
+
 module.exports = router
