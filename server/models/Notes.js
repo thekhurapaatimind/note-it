@@ -10,11 +10,11 @@ const NotesSchema = new Schema({
     type:String,
     required:true
   },
-  body: {
+  description: {
     type:String,
     required:true
   },
-  tags: {
+  tag: {
     type:String,
     default:"General"
   },

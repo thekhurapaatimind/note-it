@@ -19,4 +19,32 @@ router.get('/mynotes', fetchuser, async (req,res)=>{
     }
 })  
 
+//Route 2: Add new note to the current user
+router.post('/addnote', fetchuser, [
+    body('title', 'Title length should be atleast 5').isLength({min:5}),
+    body('description', 'Description length should be atleast 5').isLength({min:5})
+] , async (req,res)=>{
+
+    //check for bad request and send the error
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    //check unique email
+    try {
+
+        const {title, description, tag} = req.body
+        const newNote = await Notes.create({
+            title, description, tag,
+            user: req.user.id
+        })
+        res.json(newNote);
+
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send("Some Error Occured")
+    }
+})
+
 module.exports = router
