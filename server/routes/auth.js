@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require("../models/User");
+const fetchuser = require("../middleware/fetchuser");
 const { body, validationResult } = require('express-validator');
 
 //JWT Signature Key
@@ -92,6 +93,18 @@ router.post('/login', [
         res.json({authToken});
 
     } catch (err) {
+        console.log(err.message);
+        return res.status(500).send("Some Error Occured");
+    }
+})
+
+//Get user details using POST method
+router.post('/getuser', fetchuser , async (req,res)=>{
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+        res.status(200).send(user);
+
+    } catch (error) {
         console.log(err.message);
         return res.status(500).send("Some Error Occured")
     }
