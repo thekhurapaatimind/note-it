@@ -47,4 +47,37 @@ router.post('/addnote', fetchuser, [
     }
 })
 
+//Route 2: Update note of the current user using PUT method
+router.put('/updatenote/:id', fetchuser, async (req,res)=>{
+
+    try {
+        
+        //recieve the fields to be updated
+        const { title, description, tag } = req.body;
+    
+        //create new note object
+        const newNote = {};
+        if(title){newNote.title = title};
+        if(description){newNote.description = description};
+        if(tag){newNote.tag = tag};
+        
+        //Note not present
+        let note = await Notes.findById(req.params.id)
+        if(!note){return res.status(404).send("Not Found")};
+    
+        //Unauthorized Attempt
+        if(note.user.toString() !== req.user.id) {
+            return res.status(401).send("Unauthorized");
+        }
+    
+        //update the note
+        note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new: true})
+        res.json({note});
+
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send("Some Error Occured")
+    }
+})
+
 module.exports = router
