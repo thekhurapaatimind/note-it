@@ -1,8 +1,11 @@
 import './App.css';
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home'
 import NavbarComponent from './components/NavbarComponent'
 import ErrorPage from './components/ErrorPage'
+import About from './components/About'
+
 
 function App() {
 
