@@ -47,7 +47,7 @@ router.post('/addnote', fetchuser, [
     }
 })
 
-//Route 2: Update note of the current user using PUT method
+//Route 3: Update note of the current user using PUT method
 router.put('/updatenote/:id', fetchuser, async (req,res)=>{
 
     try {
@@ -73,6 +73,30 @@ router.put('/updatenote/:id', fetchuser, async (req,res)=>{
         //update the note
         note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new: true})
         res.json({note});
+
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send("Some Error Occured")
+    }
+})
+
+//Route 4: Delete note of the current user using DELETE method
+router.delete('/deletenote/:id', fetchuser, async (req,res)=>{
+
+    try {
+        
+        //Note not present
+        let note = await Notes.findById(req.params.id)
+        if(!note){return res.status(404).send("Not Found")};
+    
+        //Unauthorized Attempt
+        if(note.user.toString() !== req.user.id) {
+            return res.status(401).send("Unauthorized");
+        }
+    
+        //delete the note
+        await Notes.findByIdAndDelete(req.params.id)
+        res.json({note:note, "Success":"Note Deleted Successfully"});
 
     } catch (err) {
         console.log(err.message);
