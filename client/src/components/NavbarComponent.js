@@ -17,14 +17,14 @@ function NavbarComponent(props) {
             <Nav.Link as={NavLink} to="/about">About Us</Nav.Link>
           </Nav>
           <Nav>
-              <Form className='d-flex align-items-center'>
-                  <Form.Check 
-                      type="switch"
-                      id="custom-switch"
-                      onClick={props.toggleMode}
-                  />
-                  <Navbar.Text>Dark Mode</Navbar.Text>
-              </Form>
+            <Form className='d-flex align-items-center'>
+                <Form.Check 
+                    type="switch"
+                    id="custom-switch"
+                    onClick={props.toggleMode}
+                />
+                <Navbar.Text>Dark Mode</Navbar.Text>
+            </Form>
           </Nav>
         </Navbar.Collapse>
       </Container>
