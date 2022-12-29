@@ -9,7 +9,7 @@ function NavbarComponent(props) {
   return (
     <Navbar bg={props.mode} variant={props.mode} expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">Utility App</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">Note It!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
