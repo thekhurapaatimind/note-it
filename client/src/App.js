@@ -5,6 +5,7 @@ import Home from './components/Home'
 import NavbarComponent from './components/NavbarComponent'
 import ErrorPage from './components/ErrorPage'
 import About from './components/About'
+import NoteState from './context/notes/NoteState';
 
 
 function App() {
@@ -25,12 +26,14 @@ function App() {
   }
   return (
     <>
-      <NavbarComponent mode={mode} toggleMode={toggleMode}/>
-      <Routes>
-        <Route exact path='/' element={<Home/>}/>
-        <Route exact path='/about' element={<About/>}/>
-        <Route exact path='/*' element={<ErrorPage/>}/>
-      </Routes>
+      <NoteState>
+        <NavbarComponent mode={mode} toggleMode={toggleMode}/>
+        <Routes>
+          <Route exact path='/' element={<Home/>}/>
+          <Route exact path='/about' element={<About/>}/>
+          <Route exact path='/*' element={<ErrorPage/>}/>
+        </Routes>
+      </NoteState>
     </>
   );
 }
