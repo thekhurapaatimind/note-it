@@ -12,7 +12,8 @@ function NoteCard(props) {
                 <Card.Text>{tag}</Card.Text>
             </Card.Body>
             <Card.Footer>
-                
+                <i className="fa-solid fa-pen-to-square  me-3"></i>
+                <i className="fa-solid fa-trash me-3"></i>
             </Card.Footer>
         </Card>
     );
