@@ -51,9 +51,22 @@ const NoteState = (props) => {
   ]
 
   const [notes, setNotes] = useState(initnotes);
-  
+
+  const addNote = () => {
+
+  }
+
+  const editNote = () => {
+    
+  }
+
+  const deleteNote = (id) => {
+    console.log("Deleted note with id = " + id);
+    const newNotes = notes.filter((note)=>{return note._id!==id});
+    setNotes(newNotes);
+  }
   return (
-    <NoteContext.Provider value={{ notes, setNotes }}>
+    <NoteContext.Provider value={{ notes, setNotes , addNote, deleteNote, editNote}}>
       {props.children}
     </NoteContext.Provider>
   );
