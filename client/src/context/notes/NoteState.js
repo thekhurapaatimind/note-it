@@ -32,7 +32,18 @@ const NoteState = (props) => {
     })
     const newNote = await response.json()
     // console.log(newNote);
+
     //Client Side
+    // const newNote = {
+    //   _id: json._id,
+    //   user: "63a9ec71763bcf52f76cb050",
+    //   title: title,
+    //   description: description,
+    //   tag: (tag!=="") ? tag : "General",
+    //   date: "2023-01-04T14:30:20.515Z",
+    //   __v: 0,
+    // } 
+    
     setNotes(notes.concat(newNote));
   }
 
@@ -49,7 +60,20 @@ const NoteState = (props) => {
       body: (tag!=="") ? JSON.stringify({title, description, tag}) : JSON.stringify({title, description})
     })  
 
-    //client side
+    //client side - Frontend
+
+    // let newNotes = JSON.parse(JSON.stringify(notes));
+    // for (let index = 0; index < newNotes.length; index++) {
+    //   if(newNotes[index]._id===id) {
+    //     // console.log("Found the note with id: "+id);
+    //     newNotes[index].title = title;
+    //     newNotes[index].description = description;
+    //     newNotes[index].tag = tag;
+    //     break;
+    //   }      
+    // }
+    // setNotes(newNotes);
+
     getNotes();
   }
 
