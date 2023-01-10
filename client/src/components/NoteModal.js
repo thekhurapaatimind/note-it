@@ -32,7 +32,7 @@ function NoteModal(props) {
             {props.useType==="edit" && <i className="fa-solid fa-pen-to-square  me-3" onClick={handleShow}></i>}
             {props.useType==="add" && <Card className="d-flex align-items-center justify-content-center" onClick={handleShow} style={{ width: "18rem", height: "150px", cursor: "pointer" }}>
                 <Card.Text className='display-4'>
-                    <i class="fa-regular fa-plus"></i>
+                    <i className="fa-regular fa-plus"></i>
                 </Card.Text>
             </Card>}
 
