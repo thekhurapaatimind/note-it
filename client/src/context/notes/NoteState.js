@@ -19,14 +19,25 @@ const NoteState = (props) => {
     setNotes(json);
   }
 
-  const addNote = (title, description, tag) => {
-    console.log("Adding Note");
+  const addNote = async (title, description, tag) => {
+
+    //API CAll
+    const response = await fetch(`${host}/api/notes/addnote`, {
+      method: 'POST',
+      headers: {
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhOWVjNzE3NjNiY2Y1MmY3NmNiMDUwIn0sImlhdCI6MTY3MjE0ODcyNn0.13UaMRvyyFHGdnkj1dap3gKfj5e-4Eu41tU8AjYKeeU",
+        "Content-Type": "application/json"
+      },
+      body: (tag!=="") ? JSON.stringify({title, description, tag}) : JSON.stringify({title, description})
+    })
+
+    //Client Side
     const newNote = {
         _id: "63b58d7c793bb8d8008ec9c3"+(title),
         user: "63a9ec71763bcf52f76cb050",
         title: title,
         description: description,
-        tag: tag,
+        tag: (tag!=="") ? tag : "General",
         date: "2023-01-04T14:30:20.515Z",
         __v: 0,
     } 

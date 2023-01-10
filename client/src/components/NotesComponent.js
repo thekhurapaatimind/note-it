@@ -8,6 +8,7 @@ function NotesComponent() {
     const { notes, getNotes } = context;
     useEffect(() => {
       getNotes();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
   return (
