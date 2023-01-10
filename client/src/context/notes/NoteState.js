@@ -66,8 +66,20 @@ const NoteState = (props) => {
     setNotes(notes.concat(newNote));
   }
 
-  const editNote = () => {
-    
+  const editNote = (id, title, description, tag) => {
+    // console.log("Editing Notes \nFinding the note with id: "+id);
+    //client side
+    let newNotes = JSON.parse(JSON.stringify(notes));
+    for (let index = 0; index < newNotes.length; index++) {
+      if(newNotes[index]._id===id) {
+        // console.log("Found the note with id: "+id);
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
+      }      
+    }
+    setNotes(newNotes);
   }
 
   const deleteNote = (id) => {

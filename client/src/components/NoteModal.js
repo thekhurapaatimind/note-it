@@ -4,7 +4,7 @@ import NoteContext from '../context/notes/NoteContext';
 
 function NoteModal(props) {
     const context = useContext(NoteContext);
-    const { addNote } = context;
+    const { addNote, editNote } = context;
     const [note, setNote] = useState({ title: props.title, description: props.description, tag: props.tag })
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -15,7 +15,11 @@ function NoteModal(props) {
 
     const handleClick = (e) => {
         e.preventDefault();
-        addNote(note.title, note.description, note.tag);
+        if(props.useType==="add")
+            addNote(note.title, note.description, note.tag);
+        else if(props.useType==="edit") {
+            editNote(props.id, note.title, note.description, note.tag);
+        }
         handleClose();
     }
 

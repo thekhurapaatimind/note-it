@@ -16,7 +16,7 @@ function NoteCard(props) {
                 <Card.Text>{tag}</Card.Text>
             </Card.Body>
             <Card.Footer>
-                <NoteModal useType="edit" heading="Edit Note" title={title} description={description} tag={tag}/>
+                <NoteModal useType="edit" heading="Edit Note" title={title} description={description} tag={tag} id={_id}/>
                 <i className="fa-solid fa-trash me-3" onClick={()=>{deleteNote(_id)}}></i>
             </Card.Footer>
         </Card>
