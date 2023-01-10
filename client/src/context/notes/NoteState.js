@@ -50,17 +50,7 @@ const NoteState = (props) => {
     })  
 
     //client side
-    let newNotes = JSON.parse(JSON.stringify(notes));
-    for (let index = 0; index < newNotes.length; index++) {
-      if(newNotes[index]._id===id) {
-        // console.log("Found the note with id: "+id);
-        newNotes[index].title = title;
-        newNotes[index].description = description;
-        newNotes[index].tag = tag;
-        break;
-      }      
-    }
-    setNotes(newNotes);
+    getNotes();
   }
 
   const deleteNote = (id) => {
