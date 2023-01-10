@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import NoteContext from "../context/notes/NoteContext";
+import NoteModal from "./NoteModal";
 
 function NoteCard(props) {
     const context = useContext(NoteContext);
@@ -15,7 +16,7 @@ function NoteCard(props) {
                 <Card.Text>{tag}</Card.Text>
             </Card.Body>
             <Card.Footer>
-                <i className="fa-solid fa-pen-to-square  me-3"></i>
+                <NoteModal useType="edit" heading="Edit Note" title={title} description={description} tag={tag}/>
                 <i className="fa-solid fa-trash me-3" onClick={()=>{deleteNote(_id)}}></i>
             </Card.Footer>
         </Card>

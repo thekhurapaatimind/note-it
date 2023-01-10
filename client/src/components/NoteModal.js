@@ -5,11 +5,14 @@ import NoteContext from '../context/notes/NoteContext';
 function NoteModal(props) {
     const context = useContext(NoteContext);
     const { addNote } = context;
+    const [note, setNote] = useState({ title: props.title, description: props.description, tag: props.tag })
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true);
+        setNote({ title: props.title, description: props.description, tag: props.tag })
+    }
 
-    const [note, setNote] = useState({ title: props.title, description: props.description, tag: props.tag })
     const handleClick = (e) => {
         e.preventDefault();
         addNote(note.title, note.description, note.tag);
@@ -22,11 +25,12 @@ function NoteModal(props) {
 
     return (
         <>
-            <Card className="d-flex align-items-center justify-content-center" onClick={handleShow} style={{ width: "18rem", height: "150px", cursor: "pointer" }}>
+            {props.useType==="edit" && <i className="fa-solid fa-pen-to-square  me-3" onClick={handleShow}></i>}
+            {props.useType==="add" && <Card className="d-flex align-items-center justify-content-center" onClick={handleShow} style={{ width: "18rem", height: "150px", cursor: "pointer" }}>
                 <Card.Text className='display-4'>
                     <i class="fa-regular fa-plus"></i>
                 </Card.Text>
-            </Card>
+            </Card>}
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
