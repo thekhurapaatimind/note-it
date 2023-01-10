@@ -22,7 +22,7 @@ const NoteState = (props) => {
   const addNote = async (title, description, tag) => {
 
     //API CAll
-    const response = await fetch(`${host}/api/notes/addnote`, {
+    await fetch(`${host}/api/notes/addnote`, {
       method: 'POST',
       headers: {
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhOWVjNzE3NjNiY2Y1MmY3NmNiMDUwIn0sImlhdCI6MTY3MjE0ODcyNn0.13UaMRvyyFHGdnkj1dap3gKfj5e-4Eu41tU8AjYKeeU",
