@@ -43,7 +43,7 @@ const NoteState = (props) => {
     //   date: "2023-01-04T14:30:20.515Z",
     //   __v: 0,
     // } 
-    
+
     setNotes(notes.concat(newNote));
   }
 
@@ -77,8 +77,19 @@ const NoteState = (props) => {
     getNotes();
   }
 
-  const deleteNote = (id) => {
+  const deleteNote = async (id) => {
+    //API CALL
+    await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: 'DELETE',
+      headers: {
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNhOWVjNzE3NjNiY2Y1MmY3NmNiMDUwIn0sImlhdCI6MTY3MjE0ODcyNn0.13UaMRvyyFHGdnkj1dap3gKfj5e-4Eu41tU8AjYKeeU",
+        "Content-Type": "application/json"
+      }
+    }) 
+
     console.log("Deleted note with id = " + id);
+    
+    //Client Side
     const newNotes = notes.filter((note)=>{return note._id!==id});
     setNotes(newNotes);
   }
