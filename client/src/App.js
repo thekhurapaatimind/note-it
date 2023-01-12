@@ -6,6 +6,7 @@ import NavbarComponent from './components/NavbarComponent'
 import ErrorPage from './components/ErrorPage'
 import About from './components/About'
 import NoteState from './context/notes/NoteState';
+import AlertState from './context/alerts/AlertState';
 import Login from './components/Login';
 import Signup from './components/Signup';
 
@@ -28,7 +29,7 @@ function App() {
   }
   return (
     <>
-      <NoteState>
+      <NoteState><AlertState>
         <NavbarComponent mode={mode} toggleMode={toggleMode}/>
         <Routes>
           <Route exact path='/' element={<Home/>}/>
@@ -37,7 +38,7 @@ function App() {
           <Route exact path='/signup' element={<Signup/>}/>
           <Route exact path='/*' element={<ErrorPage/>}/>
         </Routes>
-      </NoteState>
+        </AlertState></NoteState>
     </>
   );
 }
