@@ -17,16 +17,17 @@ router.post('/createUser', [
 ] , async (req,res)=>{
 
     //check for bad request and send the error
+    const success = false;
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        return res.status(400).json({success, errors: errors.array()});
     }
 
     //check unique email
     try {
         let user = await User.findOne({email: req.body.email});
         if(user) {
-            return res.status(500).json({error: "User email already registered."})
+            return res.status(500).json({success, error: "User email already registered."})
         }
 
         //hashing the password
@@ -47,11 +48,11 @@ router.post('/createUser', [
         }
         const authToken = jwt.sign(data, JWT_SECRET);
 
-        res.json({authToken});
+        res.json({success: true, authToken});
 
     } catch (err) {
         console.log(err.message);
-        return res.status(500).send("Some Error Occured")
+        return res.status(500).send(success, "Some Error Occured")
     }
 })
 
