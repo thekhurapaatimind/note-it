@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
+import NoteContext from '../context/notes/NoteContext';
 import NotesComponent from './NotesComponent'
 import NoteModal from './NoteModal'
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const context = useContext(NoteContext);
+  const navigate = useNavigate();
+  const { getNotes } = context;
+  useEffect(() => {
+    if(localStorage.getItem('token')) {
+      getNotes();
+    }
+    else {
+      navigate("/login")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   return (
     <div>
       <Container>
