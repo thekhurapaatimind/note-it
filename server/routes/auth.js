@@ -9,7 +9,7 @@ const { body, validationResult } = require('express-validator');
 //JWT Signature Key
 const JWT_SECRET = "this@app$is%secured";
 
-//Create a New User using POST to "api/auth/createUser"
+//Route 1: Create a New User using POST to "api/auth/createUser"
 router.post('/createUser', [
     body('name'),
     body('email', 'Enter a valid Email').isEmail(),
@@ -55,7 +55,7 @@ router.post('/createUser', [
     }
 })
 
-//User Login using POST method
+//Route 2: User Login using POST method
 router.post('/login', [
     body('email', 'Enter a valid Email').isEmail(),
     body('password', 'Password cannot be blank').exists()
@@ -98,7 +98,7 @@ router.post('/login', [
     }
 })
 
-//Get user details using POST method
+// Route 3: Get user details using POST method
 router.post('/getuser', fetchuser , async (req,res)=>{
     try {
         const user = await User.findById(req.user.id).select("-password");
