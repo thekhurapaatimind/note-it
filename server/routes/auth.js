@@ -63,8 +63,9 @@ router.post('/login', [
 
     //check for bad request and send the error
     const errors = validationResult(req);
+    const success = false;
     if(!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        return res.status(400).json({success, email: req.body.email, errors: errors.array()});
     }
 
     //destructure the body parameters
@@ -73,13 +74,13 @@ router.post('/login', [
     try {
         let user = await User.findOne({email});
         if(!user) {
-            return res.status(500).json({error: "Invalid Login Credentials!"})
+            return res.status(500).json({success, error: "Invalid Login Credentials!"})
         }
 
         //compare the given password
         const validPass = await bcrypt.compare(password, user.password);
         if(!validPass) {
-            return res.status(500).json({error: "Invalid Login Credentials!"})
+            return res.status(500).json({success, error: "Invalid Login Credentials!"})
         }
 
         //jwt
@@ -90,11 +91,11 @@ router.post('/login', [
         }
         const authToken = jwt.sign(data, JWT_SECRET);
 
-        res.json({authToken});
+        res.json({success: true, authToken});
 
     } catch (err) {
         console.log(err.message);
-        return res.status(500).send("Some Error Occured");
+        return res.status(500).json({success, error: "Invalid Login Credentials!"});
     }
 })
 
