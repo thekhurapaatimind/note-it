@@ -37,50 +37,54 @@ function NoteModal(props) {
             </Card>}
 
             <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{props.heading}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control
-                                as="input"
-                                value={note.title}
-                                onChange={onChange}
-                                name="title"
-                                autoFocus
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                value={note.description}
-                                onChange={onChange}
-                                name="description"
-                                rows={5}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Tags(Optional)</Form.Label>
-                            <Form.Control
-                                as="input"
-                                value={note.tag}
-                                onChange={onChange}
-                                name="tag"
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer style={{ justifyContent: 'center' }}>
-                    <Button variant="danger" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="success" onClick={handleClick}>
-                        Apply
-                    </Button>
-                </Modal.Footer>
+                <Form onSubmit={handleClick}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>{props.heading}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control
+                                    as="input"
+                                    value={note.title}
+                                    onChange={onChange}
+                                    name="title"
+                                    minLength={5}
+                                    required
+                                    autoFocus
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    value={note.description}
+                                    onChange={onChange}
+                                    name="description"
+                                    rows={5}
+                                    minLength={5}
+                                    required
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Tags(Optional)</Form.Label>
+                                <Form.Control
+                                    as="input"
+                                    value={note.tag}
+                                    onChange={onChange}
+                                    name="tag"
+                                />
+                            </Form.Group>
+                    </Modal.Body>
+                    <Modal.Footer style={{ justifyContent: 'center' }}>
+                        <Button variant="danger" onClick={handleClose}>
+                            Cancel
+                        </Button>
+                        <Button disabled={note.title.length<5 || note.description.length<5} type="submit" variant="success">
+                            Apply
+                        </Button>
+                    </Modal.Footer>
+                </Form>
             </Modal>
         </>
     );
