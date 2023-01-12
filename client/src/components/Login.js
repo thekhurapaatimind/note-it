@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { Card, Container, Form, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
+import AlertContext from '../context/alerts/AlertContext'
 
 function Login() {
 
+    const context = useContext(AlertContext);
+    const { showAlert } = context;
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({ email: "", password: "" })
     const { email, password } = credentials;
@@ -26,10 +29,11 @@ function Login() {
         console.log(json);
         if(json.success) {
             localStorage.setItem('token', json.authToken);
+            showAlert("Login Successfull!","success")
             navigate("/")
         }
         else {
-            alert("Some Error Occured")
+            showAlert(json.error, "danger")
         }
     }
     return (
