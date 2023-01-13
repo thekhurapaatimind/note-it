@@ -3,8 +3,13 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Form, Button } from 'react-bootstrap';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AlertContext from '../context/alerts-theme/AlertContext';
  
-function NavbarComponent(props) {
+function NavbarComponent() {
+  
+  const context = useContext(AlertContext);
+  const { mode, toggleMode } = context;
   
   const navigate = useNavigate();
   const handleLogOut = () => {
@@ -13,7 +18,7 @@ function NavbarComponent(props) {
     navigate('/login');
   }
   return (
-    <Navbar bg={props.mode} variant={props.mode} expand="lg">
+    <Navbar bg={mode} variant={mode} expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">Note It!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -27,7 +32,7 @@ function NavbarComponent(props) {
                 <Form.Check 
                     type="switch"
                     id="custom-switch"
-                    onClick={props.toggleMode}
+                    onClick={toggleMode}
                 />
                 <Navbar.Text>Dark Mode</Navbar.Text>
                 {

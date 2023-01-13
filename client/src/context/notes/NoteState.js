@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import AlertContext from "../alerts/AlertContext";
+import AlertContext from "../alerts-theme/AlertContext";
 import NoteContext from "./NoteContext";
 
 const NoteState = (props) => {

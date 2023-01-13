@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useState } from 'react'
 import { Card, Container, Form, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import AlertContext from '../context/alerts/AlertContext'
+import AlertContext from '../context/alerts-theme/AlertContext'
 
 function Login() {
 
