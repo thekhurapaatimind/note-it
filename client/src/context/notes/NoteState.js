@@ -9,6 +9,7 @@ const NoteState = (props) => {
   const [notes, setNotes] = useState([]);
   
   const getNotes = async () => {
+    
     //API CAll
     const response = await fetch(`${host}/api/notes/mynotes`, {
       method: 'GET',
@@ -19,6 +20,7 @@ const NoteState = (props) => {
     })
     const json = await response.json()
     setNotes(json);
+
   }
 
   const addNote = async (title, description, tag) => {
@@ -32,8 +34,15 @@ const NoteState = (props) => {
       },
       body: (tag!=="") ? JSON.stringify({title, description, tag}) : JSON.stringify({title, description})
     })
-    const newNote = await response.json()
-    // console.log(newNote);
+    const json = await response.json()
+
+    if(json.success) {
+      setNotes(notes.concat(json.newNote));
+      showAlert("Note Added Successfully", "success");
+    }
+    else {
+      showAlert(json.error, "success");
+    }
 
     //Client Side
     // const newNote = {
@@ -45,15 +54,13 @@ const NoteState = (props) => {
     //   date: "2023-01-04T14:30:20.515Z",
     //   __v: 0,
     // } 
-    showAlert("Note Added Successfully", "success");
-    setNotes(notes.concat(newNote));
+    
   }
 
   const editNote = async (id, title, description, tag) => {
-    // console.log("Editing Notes \nFinding the note with id: "+id);
 
     //API Call
-    await fetch(`${host}/api/notes/updatenote/${id}`, {
+    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: 'PUT',
       headers: {
         "auth-token": localStorage.getItem("token"),
@@ -61,7 +68,16 @@ const NoteState = (props) => {
       },
       body: (tag!=="") ? JSON.stringify({title, description, tag}) : JSON.stringify({title, description})
     })  
+    const json = await response.json();
 
+    if(json.success) {
+      showAlert("Note Edited Successfully", "success");
+      getNotes();
+    }
+    else {
+      showAlert(json.error, "success");
+    }
+    
     //client side - Frontend
 
     // let newNotes = JSON.parse(JSON.stringify(notes));
@@ -75,8 +91,7 @@ const NoteState = (props) => {
     //   }      
     // }
     // setNotes(newNotes);
-
-    getNotes();
+    
   }
 
   const deleteNote = async (id) => {
@@ -88,17 +103,28 @@ const NoteState = (props) => {
         "Content-Type": "application/json"
       }
     }) 
-
-    console.log("Deleted note with id = " + id);
+    
+    const json = await response.json();
     
     //Client Side
-    const newNotes = notes.filter((note)=>{return note._id!==id});
-    setNotes(newNotes);
+    if(json.success) {
+      const newNotes = notes.filter((note)=>{return note._id!==id});
+      setNotes(newNotes);
+      showAlert("Note Deleted Successfully", "success");
+    }
+    else {
+      showAlert(json.error, "success");
+    }
+
+    console.log("Deleted note with id = " + id);
   }
+  
   return (
+    
     <NoteContext.Provider value={{ notes, setNotes , addNote, deleteNote, editNote, getNotes}}>
       {props.children}
     </NoteContext.Provider>
+
   );
 };
 
