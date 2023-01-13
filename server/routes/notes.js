@@ -15,7 +15,7 @@ router.get('/mynotes', fetchuser, async (req,res)=>{
 
     } catch (error) {
         console.log(err.message);
-        return res.status(500).send("Some Error Occured")
+        return res.status(500).json({success: false, errors: "Some Internal Error Occured"});
     }
 })  
 
@@ -28,7 +28,7 @@ router.post('/addnote', fetchuser, [
     //check for bad request and send the error
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()});
+        return res.status(400).json({success: false, errors: errors.array()});
     }
 
     //check unique email
@@ -39,11 +39,11 @@ router.post('/addnote', fetchuser, [
             title, description, tag,
             user: req.user.id
         })
-        res.json(newNote);
+        res.json({success: true, newNote});
 
     } catch (err) {
         console.log(err.message);
-        return res.status(500).send("Some Error Occured")
+        return res.status(500).json({success: false, errors: "Some Internal Error Occured"});
     }
 })
 
@@ -63,20 +63,20 @@ router.put('/updatenote/:id', fetchuser, async (req,res)=>{
         
         //Note not present
         let note = await Notes.findById(req.params.id)
-        if(!note){return res.status(404).send("Not Found")};
+        if(!note){return res.status(404).send({success: false, error:"Note Not Found"})};
     
         //Unauthorized Attempt
         if(note.user.toString() !== req.user.id) {
-            return res.status(401).send("Unauthorized");
+            return res.status(401).send({success: false, error:"Unauthorized Attempt"});
         }
     
         //update the note
         note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new: true})
-        res.json({note});
+        res.json({success: true, note});
 
     } catch (err) {
         console.log(err.message);
-        return res.status(500).send("Some Error Occured")
+        return res.status(500).json({success: false, errors: "Some Internal Error Occured"});
     }
 })
 
@@ -87,20 +87,20 @@ router.delete('/deletenote/:id', fetchuser, async (req,res)=>{
         
         //Note not present
         let note = await Notes.findById(req.params.id)
-        if(!note){return res.status(404).send("Not Found")};
+        if(!note){return res.status(404).send({success: false, error:"Note Not Found"})};
     
         //Unauthorized Attempt
         if(note.user.toString() !== req.user.id) {
-            return res.status(401).send("Unauthorized");
+            return res.status(401).send({success: false, error:"Unauthorized Attempt"});
         }
     
         //delete the note
         await Notes.findByIdAndDelete(req.params.id)
-        res.json({note:note, "Success":"Note Deleted Successfully"});
+        res.json({success: true, note:note, "Success":"Note Deleted Successfully"});
 
     } catch (err) {
         console.log(err.message);
-        return res.status(500).send("Some Error Occured")
+        return res.status(500).json({success: false, errors: "Some Internal Error Occured"});
     }
 })
 
