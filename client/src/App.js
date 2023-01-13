@@ -30,7 +30,7 @@ function App() {
   }
   return (
     <>
-      <NoteState><AlertState>
+      <AlertState><NoteState>
         <NavbarComponent mode={mode} toggleMode={toggleMode}/>
         <AlertTab/>
         <Routes>
@@ -40,7 +40,7 @@ function App() {
           <Route exact path='/signup' element={<Signup/>}/>
           <Route exact path='/*' element={<ErrorPage/>}/>
         </Routes>
-        </AlertState></NoteState>
+      </NoteState></AlertState>
     </>
   );
 }
