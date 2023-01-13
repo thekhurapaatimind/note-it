@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import AlertContext from "../alerts/AlertContext";
 import NoteContext from "./NoteContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000"
-
+  const context = useContext(AlertContext);
+  const { showAlert } = context;
   const [notes, setNotes] = useState([]);
   
   const getNotes = async () => {
@@ -43,7 +45,7 @@ const NoteState = (props) => {
     //   date: "2023-01-04T14:30:20.515Z",
     //   __v: 0,
     // } 
-
+    showAlert("Note Added Successfully", "success");
     setNotes(notes.concat(newNote));
   }
 
