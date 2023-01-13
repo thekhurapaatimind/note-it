@@ -13,7 +13,7 @@ function NoteCard(props) {
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
                 <Card.Text>{description}</Card.Text>
-                <Card.Text>{tag}</Card.Text>
+                <Card.Text className="text-muted">{tag}</Card.Text>
             </Card.Body>
             <Card.Footer>
                 <NoteModal useType="edit" heading="Edit Note" title={title} description={description} tag={tag} id={_id}/>
