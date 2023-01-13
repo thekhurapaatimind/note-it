@@ -77,7 +77,7 @@ const NoteState = (props) => {
     else {
       showAlert(json.error, "success");
     }
-    
+
     //client side - Frontend
 
     // let newNotes = JSON.parse(JSON.stringify(notes));
@@ -96,7 +96,7 @@ const NoteState = (props) => {
 
   const deleteNote = async (id) => {
     //API CALL
-    await fetch(`${host}/api/notes/deletenote/${id}`, {
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
       method: 'DELETE',
       headers: {
         "auth-token": localStorage.getItem("token"),
