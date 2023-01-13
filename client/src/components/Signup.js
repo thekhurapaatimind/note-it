@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react'
 import { Card, Container, Form, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
+import AlertContext from '../context/alerts/AlertContext'
 
 function Signup() {
 
+    const context = useContext(AlertContext);
+    const { showAlert } = context;
     const navigate = useNavigate();
     const [credentials, setCredentials] = useState({ name:"", email: "", password: "", cpassword: ""})
     const { name, email, password, cpassword } = credentials;
@@ -14,30 +17,33 @@ function Signup() {
     }
 
     const handleLogin = async (e) => {
-        if(password!==cpassword) {
-            return alert("Password Did Not Match!")
-        }
         e.preventDefault();
-        const response = await fetch('http://localhost:5000/api/auth/createUser', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, email, password })
-        })
-        const json =  await response.json();
-        console.log(json);
-        if(json.success) {
-            localStorage.setItem('token', json.authToken);
-            navigate("/")
+        if(password!==cpassword) {
+            showAlert("Password Do Not Match!", "danger")
         }
         else {
-            alert("Some Internal Error Occured")
+            const response = await fetch('http://localhost:5000/api/auth/createUser', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name, email, password })
+            })
+            const json =  await response.json();
+            console.log(json);
+            if(json.success) {
+                localStorage.setItem('token', json.authToken);
+                showAlert("User Registered Successfully!","success")
+                navigate("/")
+            }
+            else {
+                showAlert(json.error, "danger")
+            }
         }
     }
 
     return (
-        <Container className='d-flex justify-content-center align-items-center' style={{ height: '90vh' }}>
+        <Container className='mt-5 d-flex justify-content-center align-items-center' >
             <Card style={{ width: "20rem" }}>
                 <Form onSubmit={handleLogin}>
                     <Card.Body>
@@ -62,7 +68,6 @@ function Signup() {
                                 onChange={onChange}
                                 name="email"
                                 required
-                                autoFocus
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
